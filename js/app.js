@@ -9,6 +9,7 @@ class CalorieTracker {
     this._displayCaloriesLimit();
     this._displayCaloriesConsumed();
     this._displayCaloriesBurned();
+    this._displayCaloriesRemaining();
   }
   
   // Public Methods. //
@@ -52,10 +53,20 @@ class CalorieTracker {
     caloriesBurnedEl.innerHTML = burned;
   }
 
+
+  _displayCaloriesRemaining() {
+    const caloriesRemainingEl = document.getElementById('calories-remaining');
+
+    const remaining = this._calorieLimit - this._totalCalories;
+
+    caloriesRemainingEl.innerHTML = remaining;
+  }
+
   _render() {
     this._displayCaloriesTotal();
     this._displayCaloriesConsumed();
     this._displayCaloriesBurned();
+    this._displayCaloriesRemaining();
   }
 }
 
