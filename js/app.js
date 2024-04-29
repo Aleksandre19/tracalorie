@@ -6,6 +6,7 @@ class CalorieTracker {
     this._workouts = [];
 
     this._displayCaloriesTotal();
+    this._displayCaloriesLimit();
   }
   
   // Public Methods. //
@@ -28,10 +29,17 @@ class CalorieTracker {
     totalCaloriesEl.innerHTML = this._totalCalories;
   }
 
+  _displayCaloriesLimit() {
+    const caloriesLimitEl = document.getElementById('calories-limit');
+    caloriesLimitEl.innerHTML = this._calorieLimit;
+  }
+
   _render() {
     this._displayCaloriesTotal();
   }
 }
+
+
 
 class Meal {
   constructor(name, calories) {
