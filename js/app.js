@@ -12,11 +12,13 @@ class CalorieTracker {
   addMeal(meal) {
     this._meals.push(meal);
     this._totalCalories += meal.calories;
+    this._render();
   }
 
   addWorkout(workout) {
     this._workouts.push(workout);
     this._totalCalories -= workout.calories;
+    this._render();
   }
 
   // Private Methods. //
@@ -24,6 +26,10 @@ class CalorieTracker {
   _displayCaloriesTotal() {
     const totalCaloriesEl = document.getElementById('calories-total');
     totalCaloriesEl.innerHTML = this._totalCalories;
+  }
+
+  _render() {
+    this._displayCaloriesTotal();
   }
 }
 
@@ -49,7 +55,7 @@ const trucker = new CalorieTracker();
 const breakfast = new Meal('Breakfast', 400);
 trucker.addMeal(breakfast);
 
-const run = new Workout('Morning run', 300);
+const run = new Workout('Morning run', 200);
 trucker.addWorkout(run);
 
 console.log(trucker._totalCalories);
