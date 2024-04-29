@@ -7,6 +7,7 @@ class CalorieTracker {
 
     this._displayCaloriesTotal();
     this._displayCaloriesLimit();
+    this._displayCaloriesConsumed();
   }
   
   // Public Methods. //
@@ -34,8 +35,17 @@ class CalorieTracker {
     caloriesLimitEl.innerHTML = this._calorieLimit;
   }
 
+  _displayCaloriesConsumed() {
+    const caloriesConsumedEl = document.getElementById('calories-consumed');
+
+    const consumed = this._meals.reduce((total, meal) => total + meal.calories, 0);
+
+    caloriesConsumedEl.innerHTML = consumed;
+  }
+
   _render() {
     this._displayCaloriesTotal();
+    this._displayCaloriesConsumed();
   }
 }
 
@@ -63,7 +73,10 @@ const trucker = new CalorieTracker();
 const breakfast = new Meal('Breakfast', 400);
 trucker.addMeal(breakfast);
 
-const run = new Workout('Morning run', 200);
+const lunch = new Meal('Aggs', 340);
+trucker.addMeal(lunch);
+
+const run = new Workout('Morning run', 100);
 trucker.addWorkout(run);
 
 console.log(trucker._totalCalories);
