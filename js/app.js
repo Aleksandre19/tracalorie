@@ -10,6 +10,7 @@ class CalorieTracker {
     this._displayCaloriesConsumed();
     this._displayCaloriesBurned();
     this._displayCaloriesRemaining();
+    this._displayCaloriesProgress();
   }
   
   // Public Methods. //
@@ -62,11 +63,19 @@ class CalorieTracker {
     caloriesRemainingEl.innerHTML = remaining;
   }
 
+  _displayCaloriesProgress() {
+    const caloriesProgressEl = document.getElementById('calorie-progress');
+    const percentage = (this._totalCalories / this._calorieLimit) * 100;
+    const width = Math.min(percentage, 100);
+    caloriesProgressEl.style.width = `${width}%`;
+  }
+
   _render() {
     this._displayCaloriesTotal();
     this._displayCaloriesConsumed();
     this._displayCaloriesBurned();
     this._displayCaloriesRemaining();
+    this._displayCaloriesProgress();
   }
 }
 
@@ -94,7 +103,7 @@ const trucker = new CalorieTracker();
 const breakfast = new Meal('Breakfast', 400);
 trucker.addMeal(breakfast);
 
-const lunch = new Meal('Aggs', 340);
+const lunch = new Meal('Aggs', 40);
 trucker.addMeal(lunch);
 
 const run = new Workout('Morning run', 190);
