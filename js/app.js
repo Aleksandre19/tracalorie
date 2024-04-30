@@ -155,6 +155,12 @@ class App {
     // Clear inputs //
     name.value = '';
     calories.value = '';
+
+    // Collapse form //
+    const collapseMeal = document.getElementById('collapse-meal');
+    const bsCollapse = new bootstrap.Collapse(collapseMeal, {
+      toggle: true
+    });
   }
 
    _newWorkout(e) {
@@ -179,6 +185,12 @@ class App {
     // Clear inputs //
     name.value = '';
     calories.value = '';
+     
+    // Collapse form //
+    const collapseWorkout = document.getElementById('collapse-workout');
+    const bsCollapse = new bootstrap.Collapse(collapseWorkout, {
+      toggle: true
+    });
   }
 
 }
