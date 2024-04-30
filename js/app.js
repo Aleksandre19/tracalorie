@@ -24,6 +24,7 @@ class CalorieTracker {
   addWorkout(workout) {
     this._workouts.push(workout);
     this._totalCalories -= workout.calories;
+    this._displayNewWorkout(workout);
     this._render();
   }
 
@@ -114,6 +115,31 @@ class CalorieTracker {
     mealsEl.appendChild(mealEl);
   }
 
+
+  _displayNewWorkout(workout) {
+    const workoutsEl = document.getElementById('workout-items');
+    const workoutEl = document.createElement('div');
+    workoutEl.classList.add('card', 'my-2');
+    workoutEl.setAttribute('data-id', workout.id);
+    workoutEl.innerHTML = `
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="mx-1">${workout.name}</h4>
+          <div
+            class="fs-1 bg-secondary text-white text-center rounded-2 px-2 px-sm-5"
+          >
+            ${workout.calories}
+          </div>
+          <button class="delete btn btn-danger btn-sm mx-2">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    `
+    workoutsEl.appendChild(workoutEl);
+
+  }
+
   _render() {
     this._displayCaloriesTotal();
     this._displayCaloriesConsumed();
@@ -177,9 +203,9 @@ class App {
       this._trucker.addMeal(meal);    
     } else {
       // Create new workput //
-      const meal = new Meal(name.value, +calories.value);
+      const workout = new Workout(name.value, +calories.value);
       // Add new workout//
-      this._trucker.addMeal(meal); 
+      this._trucker.addWorkout(workout); 
     }
 
     // Clear inputs //
