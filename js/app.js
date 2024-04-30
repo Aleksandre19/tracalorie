@@ -123,8 +123,14 @@ class App {
     this._trucker = new CalorieTracker();
 
     // Add meal item event //
-    document.getElementById('meal-form').
-      addEventListener('submit', this._newMeal.bind(this));
+    document
+      .getElementById('meal-form')
+      .addEventListener('submit', this._newMeal.bind(this));
+    
+    // Add workout item event //
+    document
+      .getElementById('workout-form')
+      .addEventListener('submit', this._newWorkout.bind(this));
   }
 
   _newMeal(e) {
@@ -150,6 +156,31 @@ class App {
     name.value = '';
     calories.value = '';
   }
+
+   _newWorkout(e) {
+    e.preventDefault();
+
+    // Grab values //
+    const name = document.getElementById('workout-name');
+    const calories = document.getElementById('workout-calories');
+
+    // Validate inputs // 
+    if (name.value === '' || calories.value === '') {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    // Create new workout //
+    const workout = new Workout(name.value, +calories.value);
+
+    // Add new meal //
+    this._trucker.addWorkout(workout);
+
+    // Clear inputs //
+    name.value = '';
+    calories.value = '';
+  }
+
 }
 
 const app = new App();
