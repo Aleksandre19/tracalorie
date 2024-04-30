@@ -125,20 +125,20 @@ class App {
     // Add meal item event //
     document
       .getElementById('meal-form')
-      .addEventListener('submit', this._newMeal.bind(this));
+      .addEventListener('submit', this._newItem.bind(this, 'meal'));
     
     // Add workout item event //
     document
       .getElementById('workout-form')
-      .addEventListener('submit', this._newWorkout.bind(this));
+      .addEventListener('submit', this._newItem.bind(this, 'workout'));
   }
 
-  _newMeal(e) {
+  _newItem(type, e) {
     e.preventDefault();
 
     // Grab values //
-    const name = document.getElementById('meal-name');
-    const calories = document.getElementById('meal-calories');
+    const name = document.getElementById(`${type}-name`);
+    const calories = document.getElementById(`${type}-calories`);
 
     // Validate inputs // 
     if (name.value === '' || calories.value === '') {
@@ -146,49 +146,25 @@ class App {
       return;
     }
 
-    // Create new meal //
-    const meal = new Meal(name.value, +calories.value);
-
-    // Add new meal //
-    this._trucker.addMeal(meal);
-
-    // Clear inputs //
-    name.value = '';
-    calories.value = '';
-
-    // Collapse form //
-    const collapseMeal = document.getElementById('collapse-meal');
-    const bsCollapse = new bootstrap.Collapse(collapseMeal, {
-      toggle: true
-    });
-  }
-
-   _newWorkout(e) {
-    e.preventDefault();
-
-    // Grab values //
-    const name = document.getElementById('workout-name');
-    const calories = document.getElementById('workout-calories');
-
-    // Validate inputs // 
-    if (name.value === '' || calories.value === '') {
-      alert('Please fill in all fields.');
-      return;
+    if (type === 'meal') {
+      // Create new meal //
+      const meal = new Meal(name.value, +calories.value);
+      // Add new meal //
+      this._trucker.addMeal(meal);    
+    } else {
+      // Create new workput //
+      const meal = new Meal(name.value, +calories.value);
+      // Add new workout//
+      this._trucker.addMeal(meal); 
     }
 
-    // Create new workout //
-    const workout = new Workout(name.value, +calories.value);
-
-    // Add new meal //
-    this._trucker.addWorkout(workout);
-
     // Clear inputs //
     name.value = '';
     calories.value = '';
-     
+
     // Collapse form //
-    const collapseWorkout = document.getElementById('collapse-workout');
-    const bsCollapse = new bootstrap.Collapse(collapseWorkout, {
+    const collapseItem = document.getElementById(`collapse-${type}`);
+    const bsCollapse = new bootstrap.Collapse(collapseItem, {
       toggle: true
     });
   }
