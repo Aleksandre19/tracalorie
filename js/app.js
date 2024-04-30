@@ -57,10 +57,30 @@ class CalorieTracker {
 
   _displayCaloriesRemaining() {
     const caloriesRemainingEl = document.getElementById('calories-remaining');
+    const progressEl = document.getElementById('calorie-progress');
 
     const remaining = this._calorieLimit - this._totalCalories;
 
     caloriesRemainingEl.innerHTML = remaining;
+
+    // Set a red color for calories remaining and progress bar. //
+    if (remaining <= 0) {
+      // Remaining Calories //
+      caloriesRemainingEl.parentElement.parentElement.classList.remove('bg-light');
+      caloriesRemainingEl.parentElement.parentElement.classList.add('bg-danger');
+
+      // Progress Bar //
+      progressEl.classList.remove('bg-success');
+      progressEl.classList.add('bg-danger');
+    } else {
+      // Remaining Calories //
+      caloriesRemainingEl.parentElement.parentElement.classList.add('bg-light');
+      caloriesRemainingEl.parentElement.parentElement.classList.remove('bg-danger');
+
+      // Progress Bar //
+      progressEl.classList.add('bg-success');
+      progressEl.classList.remove('bg-danger');
+    }
   }
 
   _displayCaloriesProgress() {
