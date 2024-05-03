@@ -52,6 +52,7 @@ class CalorieTracker {
     this._totalCalories += workout.calories;
     Storage.setTotalCalories(this._totalCalories);
     this._workouts.splice(index, 1);
+    Storage.removeWorkout(id);
     this._render();
   }
 
@@ -274,6 +275,12 @@ class Storage {
     const workouts = Storage.getWorkouts();
     workouts.push(workout);
     localStorage.setItem('workouts', JSON.stringify(workouts));
+  }
+
+  static removeWorkout(id) {
+    const workouts = Storage.getWorkouts();
+    const remainingWorkout = workouts.filter((workout) => workout.id != id);
+    localStorage.setItem('workouts', JSON.stringify(remainingWorkout));
   }
 
 }
