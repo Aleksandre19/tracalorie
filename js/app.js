@@ -40,6 +40,7 @@ class CalorieTracker {
     this._totalCalories -= meal.calories;
     Storage.setTotalCalories(this._totalCalories);
     this._meals.splice(index, 1);
+    Storage.removeMeal(id);
     this._render();
   }
 
@@ -252,6 +253,12 @@ class Storage {
     const meals = Storage.getMeals();
     meals.push(meal);
     localStorage.setItem('meals', JSON.stringify(meals));
+  }
+
+  static removeMeal(id) {
+    const meals = Storage.getMeals();
+    const remainingMeals = meals.filter((meal) => meal.id != id);
+    localStorage.setItem('meals', JSON.stringify(remainingMeals));
   }
 
 
