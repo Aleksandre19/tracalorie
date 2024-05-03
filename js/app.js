@@ -62,6 +62,7 @@ class CalorieTracker {
     this._totalCalories = 0;
     this._meals = [];
     this._workouts = [];
+    Storage.clear();
     this._render();
   }
 
@@ -285,6 +286,14 @@ class Storage {
     localStorage.setItem('workouts', JSON.stringify(remainingWorkout));
   }
 
+  
+  // Clear Storage. //
+  static clear() { 
+      localStorage.removeItem('totalCalories');
+      localStorage.removeItem('meals');
+      localStorage.removeItem('workouts');
+  }
+
 }
 
 
@@ -404,11 +413,13 @@ class App {
 
 
   _reset() {
-    this._trucker.reset();
-    document.getElementById('meal-items').innerHTML = '';
-    document.getElementById('workout-items').innerHTML = '';
-    document.getElementById('filter-meals').value = '';
-    document.getElementById('filter-workouts').value = '';
+    if (confirm('Are you sure that you want to reset settings?')) {   
+      this._trucker.reset();
+      document.getElementById('meal-items').innerHTML = '';
+      document.getElementById('workout-items').innerHTML = '';
+      document.getElementById('filter-meals').value = '';
+      document.getElementById('filter-workouts').value = '';
+    }
   }
 
 
