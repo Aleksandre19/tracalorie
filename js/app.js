@@ -194,7 +194,6 @@ class CalorieTracker {
       </div>
     `
     workoutsEl.appendChild(workoutEl);
-
   }
 
   #render() {
@@ -207,17 +206,13 @@ class CalorieTracker {
 }
 
 
-class Meal {
-  constructor(name, calories) {
+class Item {
+  /* 
+    Meal and Workout class.
+  */
+  constructor(type, name, calories) {
     this.id = Math.random().toString(16).slice(2);
-    this.name = name;
-    this.calories = calories;
-  }
-}
-
-class Workout {
-  constructor(name, calories) {
-    this.id = Math.random().toString(16).slice(2);
+    this.type = type;
     this.name = name;
     this.calories = calories;
   }
@@ -368,12 +363,12 @@ class App {
 
     if (type === 'meal') {
       // Create new meal //
-      const meal = new Meal(name.value, +calories.value);
+      const meal = new Item('meal', name.value, +calories.value);
       // Add new meal //
       this.#trucker.addMeal(meal);    
     } else {
       // Create new workput //
-      const workout = new Workout(name.value, +calories.value);
+      const workout = new Item('workout', name.value, +calories.value);
       // Add new workout//
       this.#trucker.addWorkout(workout); 
     }
