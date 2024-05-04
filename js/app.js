@@ -28,7 +28,7 @@ class CalorieTracker {
     this.#totalCalories += meal.calories;
     Storage.setTotalCalories(this.#totalCalories);
     Storage.saveMeals(meal);
-    this.#displayNewMeal(meal);
+    this.#displayNewItem(meal);
     this.#render();
   }
 
@@ -37,7 +37,7 @@ class CalorieTracker {
     this.#totalCalories -= workout.calories;
     Storage.setTotalCalories(this.#totalCalories);
     Storage.saveWorkouts(workout);
-    this.#displayNewWorkout(workout);
+    this.#displayNewItem(workout);
     this.#render();
   }
 
@@ -81,8 +81,8 @@ class CalorieTracker {
   }
 
   displayItems() {
-    this.#meals.forEach(meal => this.#displayNewMeal(meal));
-    this.#workouts.forEach(workout => this.#displayNewWorkout(workout));
+    this.#meals.forEach(meal => this.#displayNewItem(meal));
+    this.#workouts.forEach(workout => this.#displayNewItem(workout));
   }
 
   // Private Methods. //
@@ -149,19 +149,37 @@ class CalorieTracker {
     caloriesProgressEl.style.width = `${width}%`;
   }
 
-  #displayNewMeal(meal) {
-    const mealsEl = document.getElementById('meal-items');
-    const mealEl = document.createElement('div');
-    mealEl.classList.add('card', 'my-2');
-    mealEl.setAttribute('data-id', meal.id);
-    mealEl.innerHTML = `
+  #displayNewItem(item) {
+    /*
+      This class displayes the added meals and workouts.
+    */
+    
+    // Set item bame and budge color. //
+    let itemName = 'meal'
+    let budgeColor = 'bg-primary';
+
+    if (item.type === 'workout') {
+      itemName = 'workout';
+      budgeColor = 'bg-secondary';
+    } 
+
+    // Grab items container. //
+    const itemContainer = document.getElementById(`${itemName}-items`);
+
+    // Create a item element and set classes and attribute. //
+    const itemElm = document.createElement('div');
+    itemElm.classList.add('card', 'my-2');
+    itemElm.setAttribute('data-id', item.id);
+
+    // Item HTML. //
+    itemElm.innerHTML = `
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between">
-          <h4 class="mx-1">${meal.name}</h4>
+          <h4 class="mx-1">${item.name}</h4>
           <div
-            class="fs-1 bg-primary text-white text-center rounded-2 px-2 px-sm-5"
+            class="fs-1 ${budgeColor} text-white text-center rounded-2 px-2 px-sm-5"
           >
-            ${meal.calories}
+            ${item.calories}
           </div>
           <button class="delete btn btn-danger btn-sm mx-2">
             <i class="fa-solid fa-xmark"></i>
@@ -169,31 +187,9 @@ class CalorieTracker {
         </div>
       </div>
     `
-    mealsEl.appendChild(mealEl);
-  }
 
-
-  #displayNewWorkout(workout) {
-    const workoutsEl = document.getElementById('workout-items');
-    const workoutEl = document.createElement('div');
-    workoutEl.classList.add('card', 'my-2');
-    workoutEl.setAttribute('data-id', workout.id);
-    workoutEl.innerHTML = `
-      <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between">
-          <h4 class="mx-1">${workout.name}</h4>
-          <div
-            class="fs-1 bg-secondary text-white text-center rounded-2 px-2 px-sm-5"
-          >
-            ${workout.calories}
-          </div>
-          <button class="delete btn btn-danger btn-sm mx-2">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </div>
-    `
-    workoutsEl.appendChild(workoutEl);
+    // Append item HTML to container. //
+    itemContainer.appendChild(itemElm);
   }
 
   #render() {
