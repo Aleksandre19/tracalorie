@@ -1,5 +1,5 @@
 {
-  "name": "Tracalorie",
+  "name": "tracalorie",
   "version": "1.0.0",
   "description": "Webpage for tracking calories, meals and workouts.",
   "main": "app.js",
