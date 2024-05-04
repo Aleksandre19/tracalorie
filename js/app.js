@@ -7,11 +7,13 @@ class CalorieTracker {
   #workouts;
 
   constructor() {
+    // Properties. //
     this.#calorieLimit = Storage.getCalorieLimit();
     this.#totalCalories = Storage.getTotalCalories();
     this.#meals = Storage.getMeals();
     this.#workouts = Storage.getWorkouts();
 
+    // Call Methods. //
     this.#displayCaloriesTotal();
     this.#displayCaloriesLimit();
     this.#displayCaloriesConsumed();
@@ -19,10 +21,12 @@ class CalorieTracker {
     this.#displayCaloriesRemaining();
     this.#displayCaloriesProgress();
 
+    //Set Calorie Limit. //
     document.getElementById('limit').value = this.#calorieLimit;
   }
   
   // Public Methods. //
+
   addMeal(meal) {
     this.#meals.push(meal);
     this.#totalCalories += meal.calories;
@@ -42,7 +46,8 @@ class CalorieTracker {
   }
 
   removeMeal(id) {
-    const index = this.#meals.findIndex(meal => meal.id === id);
+    //Check if Meals exists. //
+    const index = this.#meals.findIndex(m => m.id === id);
     if (index === -1) return;
 
     const meal = this.#meals[index];
@@ -54,6 +59,7 @@ class CalorieTracker {
   }
 
   removeWorkout(id) {
+    // Check if Meals exists. //
     const index = this.#workouts.findIndex(workout => workout.id === id);
     if (index === -1) return;
 
@@ -65,6 +71,7 @@ class CalorieTracker {
     this.#render();
   }
 
+  // Reset Settings. //
   reset() {
     this.#totalCalories = 0;
     this.#meals = [];
@@ -80,6 +87,7 @@ class CalorieTracker {
     this.#render();
   }
 
+  // On webpage load display Meals and Workouts. //
   displayItems() {
     this.#meals.forEach(meal => this.#displayNewItem(meal));
     this.#workouts.forEach(workout => this.#displayNewItem(workout));
@@ -99,44 +107,38 @@ class CalorieTracker {
 
   #displayCaloriesConsumed() {
     const caloriesConsumedEl = document.getElementById('calories-consumed');
-
     const consumed = this.#meals.reduce((total, meal) => total + meal.calories, 0);
-
     caloriesConsumedEl.innerHTML = consumed;
   }
 
   #displayCaloriesBurned() {
     const caloriesBurnedEl = document.getElementById('calories-burned');
-
     const burned = this.#workouts.reduce((total, workout) => total + workout.calories, 0);
-
     caloriesBurnedEl.innerHTML = burned;
   }
-
 
   #displayCaloriesRemaining() {
     const caloriesRemainingEl = document.getElementById('calories-remaining');
     const progressEl = document.getElementById('calorie-progress');
 
     const remaining = this.#calorieLimit - this.#totalCalories;
-
     caloriesRemainingEl.innerHTML = remaining;
 
     // Set a red color for calories remaining and progress bar. //
     if (remaining <= 0) {
-      // Remaining Calories //
+      // Remaining Calories. //
       caloriesRemainingEl.parentElement.parentElement.classList.remove('bg-light');
       caloriesRemainingEl.parentElement.parentElement.classList.add('bg-danger');
 
-      // Progress Bar //
+      // Progress Bar. //
       progressEl.classList.remove('bg-success');
       progressEl.classList.add('bg-danger');
     } else {
-      // Remaining Calories //
+      // Remaining Calories. //
       caloriesRemainingEl.parentElement.parentElement.classList.add('bg-light');
       caloriesRemainingEl.parentElement.parentElement.classList.remove('bg-danger');
 
-      // Progress Bar //
+      // Progress Bar. //
       progressEl.classList.add('bg-success');
       progressEl.classList.remove('bg-danger');
     }
@@ -217,12 +219,11 @@ class Item {
 
 class Storage {
 
+  // Handle Calories Limit. //
   static getCalorieLimit(defaultLimit = 2000) {
-    let calorieLimit = localStorage.getItem('calorieLimit') === null
+    return localStorage.getItem('calorieLimit') === null
       ? defaultLimit
       : +localStorage.getItem('calorieLimit');
-    
-    return calorieLimit;
   }
 
   static setCalorieLimit(calorieLimit) {
@@ -231,11 +232,9 @@ class Storage {
 
   // Handle Total Calories. //
   static getTotalCalories(defaultCalories = 0) {
-    let totalCalories = localStorage.getItem('totalCalories') === null
+    return localStorage.getItem('totalCalories') === null
       ? defaultCalories
       : +localStorage.getItem('totalCalories');
-    
-    return totalCalories;
   }
 
   static setTotalCalories(totalCalories) {
@@ -282,7 +281,6 @@ class Storage {
     const remainingWorkout = workouts.filter((workout) => workout.id != id);
     localStorage.setItem('workouts', JSON.stringify(remainingWorkout));
   }
-
   
   // Clear Storage. //
   static clear() { 
@@ -301,17 +299,17 @@ class App {
   constructor() {
     this.#trucker = new CalorieTracker();
 
-    // Add meal item event //
+    // Add meal item event. //
     document
       .getElementById('meal-form')
       .addEventListener('submit', this.#newItem.bind(this, 'meal'));
     
-    // Add workout item event //
+    // Add workout item event. //
     document
       .getElementById('workout-form')
       .addEventListener('submit', this.#newItem.bind(this, 'workout'));
     
-    // Remove item //
+    // Remove item. //
     document
       .getElementById('meal-items')
       .addEventListener('click', this.#removeItem.bind(this, 'meal'));
@@ -320,7 +318,7 @@ class App {
       .getElementById('workout-items')
        .addEventListener('click', this.#removeItem.bind(this, 'workout'));
     
-    // Filter items //
+    // Filter items. //
     document
       .getElementById('filter-meals')
       .addEventListener('keyup', this.#filterItems.bind(this, 'meal'));
@@ -329,12 +327,12 @@ class App {
       .getElementById('filter-workouts')
       .addEventListener('keyup', this.#filterItems.bind(this, 'workout'));
 
-    // Reset //
+    // Reset. //
     document
       .getElementById('reset')
       .addEventListener('click', this.#reset.bind(this)); 
     
-    // Set Calorie Limit //
+    // Set Calorie Limit. //
     document
       .getElementById('limit-form')
       .addEventListener('submit', this.#setLimit.bind(this));
@@ -347,33 +345,30 @@ class App {
   #newItem(type, e) {
     e.preventDefault();
 
-    // Grab values //
+    // Grab Values. //
     const name = document.getElementById(`${type}-name`);
     const calories = document.getElementById(`${type}-calories`);
 
-    // Validate inputs // 
+    // Validate Inputs. // 
     if (name.value === '' || calories.value === '') {
       alert('Please fill in all fields.');
       return;
     }
 
+    // Create and Add Meals/Workouts. //
     if (type === 'meal') {
-      // Create new meal //
       const meal = new Item('meal', name.value, +calories.value);
-      // Add new meal //
       this.#trucker.addMeal(meal);    
     } else {
-      // Create new workput //
       const workout = new Item('workout', name.value, +calories.value);
-      // Add new workout//
       this.#trucker.addWorkout(workout); 
     }
 
-    // Clear inputs //
+    // Clear Inputs. //
     name.value = '';
     calories.value = '';
 
-    // Collapse form //
+    // Collapse Form. //
     const collapseItem = document.getElementById(`collapse-${type}`);
     const bsCollapse = new bootstrap.Collapse(collapseItem, {
       toggle: true
@@ -385,9 +380,11 @@ class App {
       e.target.classList.contains('delete') ||
       e.target.classList.contains('fa-xmark')
     ) {
-      
+
+      // Confirm action. //
       if (!confirm('Are you sure ?')) return;
       
+      // Grab Item Container ID. //
       const id = e.target.closest('.card').getAttribute('data-id');
 
       type === 'meal'
@@ -398,8 +395,10 @@ class App {
     }      
   }
 
+  // Search Meal/Workout in the List. //
   #filterItems(type, e) {
     const text = e.target.value.toLowerCase();
+
     document.querySelectorAll(`#${type}-items .card`).forEach(item => {
       const name = item.firstElementChild.firstElementChild.textContent;
 
@@ -411,7 +410,7 @@ class App {
     });
   }
 
-
+  // Reset Settings. //
   #reset() {
     if (confirm('Are you sure that you want to reset settings?')) {   
       this.#trucker.reset();
@@ -422,10 +421,8 @@ class App {
     }
   }
 
-
   #setLimit(e) {
     e.preventDefault();
-
     const limit = document.getElementById('limit');
 
     if (limit.value === '') {
@@ -440,7 +437,6 @@ class App {
     const modalEl = document.getElementById('limit-modal');
     const modal = bootstrap.Modal.getInstance(modalEl);
     modal.hide();
-
   }
 
 }
