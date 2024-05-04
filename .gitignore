@@ -3,3 +3,7 @@ project_env
 project_diagram.png
 
 **/.DS_Store
+
+webpack/node_modules
+
+webpack/dist
