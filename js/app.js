@@ -297,9 +297,17 @@ class App {
   #trucker;
 
   constructor() {
+    // Initialize Trucker. //
     this.#trucker = new CalorieTracker();
 
-    // Add meal item event. //
+    // Load Events. //
+    this.#loadEventListeners();
+    
+    // Display Meals. //
+    this.#trucker.displayItems();
+  }
+  
+  #loadEventListeners() {
     document
       .getElementById('meal-form')
       .addEventListener('submit', this.#newItem.bind(this, 'meal'));
@@ -326,7 +334,7 @@ class App {
     document
       .getElementById('filter-workouts')
       .addEventListener('keyup', this.#filterItems.bind(this, 'workout'));
-
+  
     // Reset. //
     document
       .getElementById('reset')
@@ -336,10 +344,6 @@ class App {
     document
       .getElementById('limit-form')
       .addEventListener('submit', this.#setLimit.bind(this));
-    
-    
-    // Display Meals. //
-    this.#trucker.displayItems();
   }
 
   #newItem(type, e) {
