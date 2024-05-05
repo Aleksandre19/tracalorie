@@ -6,7 +6,7 @@ The webpage is deployed on [Vercel](https://vercel.com/) can be viewed [here](ht
 
 ![banner](banner.png)
 
-The webpage is for tracking calories, meals, and workouts. Users can input this information and track their calorie intake.
+The webpage is for tracking calories, meals, and workouts. Users can input this information and track their calorie intake. It uses the local storage for data storage.
 
 The template is the same as the one used in the course, but the code has been refactored to my preference.
 
